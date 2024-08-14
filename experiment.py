@@ -9,10 +9,11 @@ from collections import defaultdict
 
 # Number of recommendations to get per cycle
 # 5 is the maximum number of seeds for new recommendations
-num_recs=5
+num_recs = 5
 
 # Number of cycles to get recommendations
-num_cycles=10
+num_cycles = 10
+
 
 # Functions to get recommendations
 # Get recommendations based on seed genres, artists, or tracks
@@ -34,12 +35,14 @@ def get_recommendations_by_genre(sp, seed_genres, num_recs=None):
         print(f"Error fetching recommendations: {e}")
         return []
 
+
 # Function to get new recommendations based on previously recommended artists as seeds
 def get_recommendations_by_artist(sp, artist_seeds, account_type, num_recs):
     # Get new recommendations based on previous recommendations
     new_recommendations = sp.recommendations(sp, artists=artist_seeds, num_recs=num_recs)
     new_extracted_info = extract_recommendation_info(new_recommendations)
     return new_extracted_info
+
 
 # Function to extract relevant information from recommendations
 def extract_recommendation_info(sp, recommendations):
@@ -60,10 +63,12 @@ def extract_recommendation_info(sp, recommendations):
         extracted_info[-1]["artist_genres"] = artist_info["genres"]
     return extracted_info
 
+
 # Function to get artist seeds from previous recommendations
 def get_artist_seeds(extracted_info, account_type):
     artist_seeds = [rec["artist_id"] for rec in extracted_info]
     return artist_seeds
+
 
 # Function to store recommendations results
 def store_recommendations(results_list, account_type, recommendations):
@@ -92,6 +97,7 @@ def store_recommendations(results_list, account_type, recommendations):
             }
         )
     return results_list
+
 
 # Function to get the first recommendations
 # This is needed as the first recommendations are based on seed genres
@@ -126,6 +132,7 @@ def get_recommendations_cycle(sp, results_list, artist_seeds, account_type, num_
         # Append new recommendations to previous recommendations
         # results = append_recommendations(results, new_results, account_type)
     return new_results
+
 
 # Save the results to a JSON file
 def save_results(results, filename):
